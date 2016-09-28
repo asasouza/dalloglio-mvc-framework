@@ -1,0 +1,3 @@
+	- Classe para criação de mensagens de erro;
+	- Classe para criação de caixa de confirmação;
+	- Classe para criação de glyphicons;
