@@ -276,6 +276,7 @@ $data = new TEntry("", "date", "date");
 $color = new TEntry("", "color", "color");
 $number = new TEntry("", "number", "number");
 $textarea = new TText("", "textarea");
+$checkbox = new TCheckButton("teste[]", "checkbox");
 $combo = new TCombo("Combo", "combo");
 
 $array;
@@ -294,7 +295,7 @@ $combo->addItems($array);
 // $form->addField($number);
 // $form->addField($textarea);
 // $form->addField($combo);
-$array = array($text, $password, $file, $data, $color, $number, $textarea, $combo);
+$array = array($text, $password, $file, $data, $color, $number, $textarea, $combo, $checkbox);
 $form->setFields($array);
 
 
