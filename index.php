@@ -276,14 +276,19 @@ $data = new TEntry("", "date", "date");
 $color = new TEntry("", "color", "color");
 $number = new TEntry("", "number", "number");
 $textarea = new TText("", "textarea");
-$checkbox = new TCheckButton("teste[]", "checkbox");
 $combo = new TCombo("Combo", "combo");
+$checkbox = new TCheckButton("teste[]", "checkbox");
+$checkgroup = new TCheckGroup("checkgroup");
+$checkgroup->setLayout("checkbox-inline");
 
 $array;
 for ($i=1; $i < 10; $i++) { 
-	$array[$i] = "text";
+	$array[$i] = "<b>Text</b>";
 }
 $combo->addItems($array);
+
+$checkgroup->addItems($array);
+
 
 // $input->setProperty('placeholder', 'Nome');
 // $input->addClass("sr-only");
@@ -295,7 +300,7 @@ $combo->addItems($array);
 // $form->addField($number);
 // $form->addField($textarea);
 // $form->addField($combo);
-$array = array($text, $password, $file, $data, $color, $number, $textarea, $combo, $checkbox);
+$array = array($text, $password, $file, $data, $color, $number, $textarea, $combo, $checkbox, $checkgroup);
 $form->setFields($array);
 
 

@@ -2,6 +2,7 @@
 class TCheckButton extends TField{
 
 	private $label;
+	private $layout;
 
 	public function __construct($name, $label){
 		parent::__construct($name);
@@ -9,11 +10,20 @@ class TCheckButton extends TField{
 		$this->tag->type = "checkbox";
 	}
 
+
+	public function setLayout($layout){
+		$this->layout = $layout;
+	}
+
 	public function show(){
 		$div = new TElement("div");
 		$div->setClass("checkbox");
 
 		$label = new TElement("label");
+
+		if ($this->layout) {
+			$div->addClass($this->layout);
+		}
 
 		$this->tag->name = $this->name;
 		$this->tag->value = $this->value;
