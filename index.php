@@ -275,15 +275,28 @@ $file = new TEntry("", "file", "file");
 $data = new TEntry("", "date", "date");
 $color = new TEntry("", "color", "color");
 $number = new TEntry("", "number", "number");
+$textarea = new TText("", "textarea");
+$combo = new TCombo("Combo", "combo");
+
+$array;
+for ($i=1; $i < 10; $i++) { 
+	$array[$i] = "text";
+}
+$combo->addItems($array);
 
 // $input->setProperty('placeholder', 'Nome');
 // $input->addClass("sr-only");
-$form->addField($text);
-$form->addField($password);
-$form->addField($file);
-$form->addField($data);
-$form->addField($color);
-$form->addField($number);
+// $form->addField($text);
+// $form->addField($password);
+// $form->addField($file);
+// $form->addField($data);
+// $form->addField($color);
+// $form->addField($number);
+// $form->addField($textarea);
+// $form->addField($combo);
+$array = array($text, $password, $file, $data, $color, $number, $textarea, $combo);
+$form->setFields($array);
+
 
 // $form->setEditable(FALSE);
 $panelbody->add($form);

@@ -1,16 +1,12 @@
-<?php
-class TEntry extends TField{
-	protected $type;
-	protected $label;
+<?php 
+class TText extends TField{
+	private $label;
 
-	public function __construct($label, $name, $type){
+	public function __construct($label, $name){
 		parent::__construct($name);
-		$this->tag->type = $type;
 		$this->label = $label;
-	}
 
-	public function setType($type){
-		$this->type = $type;
+		$this->tag = new TElement("textarea");
 	}
 
 	public function show(){
@@ -25,6 +21,7 @@ class TEntry extends TField{
 		$this->tag->name = $this->name;
 		$this->tag->value = $this->value;
 		$this->tag->addClass("form-control");
+		$this->tag->add(htmlspecialchars($this->value));
 
 		if (!parent::getEditable()) {
 			$this->tag->readonly = "1";
@@ -35,6 +32,7 @@ class TEntry extends TField{
 
 		$controlGroup->show();
 	}
+
 }
 
 ?>

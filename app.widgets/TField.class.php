@@ -8,7 +8,7 @@ abstract class TField{
 	public function __construct($name){
 		self::setName($name);
 		self::setEditable(TRUE);
-		$this->tag = new TElement('input');
+		$this->tag = new TElement("input");
 	}
 
 	public function setName($name){

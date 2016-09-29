@@ -28,6 +28,17 @@ class TForm{
 		$this->fields[$field->getName()] = $field;
 	}
 
+	public function setFields($fields){
+		foreach ($fields as $field) {
+			if ($field instanceof TField) {
+				$this->fields[$field->getName()] = $field;
+			}
+			if ($field instanceof TButton) {
+				$field->setFormName($this->name);
+			}
+		}
+	}
+
 	public function getField($name){
 		return $this->fields[$name];
 	}
