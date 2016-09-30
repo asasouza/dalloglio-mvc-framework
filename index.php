@@ -278,17 +278,17 @@ $number = new TEntry("", "number", "number");
 $textarea = new TText("", "textarea");
 $combo = new TCombo("Combo", "combo");
 $checkbox = new TCheckButton("teste[]", "checkbox");
-$checkgroup = new TCheckGroup("checkgroup");
+$checkgroup = new TCheckGroup("Selecione as opções","checkgroup");
+
 $checkgroup->setLayout("checkbox-inline");
 
 $array;
 for ($i=1; $i < 10; $i++) { 
-	$array[$i] = "<b>Text</b>";
+	$array[$i] = "112";
 }
 $combo->addItems($array);
 
 $checkgroup->addItems($array);
-
 
 // $input->setProperty('placeholder', 'Nome');
 // $input->addClass("sr-only");

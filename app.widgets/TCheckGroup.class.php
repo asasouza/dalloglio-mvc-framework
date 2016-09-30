@@ -2,6 +2,12 @@
 class TCheckGroup extends TField{
 	private $items;
 	private $layout;
+	private $label;
+
+	public function __construct($label, $name){
+		parent::__construct($name);
+		$this->label = $label;
+	}
 
 	public function setLayout($layout){
 		$this->layout = $layout;
@@ -13,8 +19,12 @@ class TCheckGroup extends TField{
 
 	public function show(){
 		if ($this->items) {
-			foreach ($this->items as $index => $label) {
-				$checkbutton = new TCheckButton("{$this->name}[]", $label);
+			$label = new TElement("label");
+			$label->add($this->label);
+			$div = new TElement("div");
+			
+			foreach ($this->items as $index => $text) {
+				$checkbutton = new TCheckButton("{$this->name}[]", $text);
 				$checkbutton->setValue($index);
 				if (@in_array($index, $this->value)) {
 					$checkbutton->setProperty('checked', '1');
@@ -22,8 +32,10 @@ class TCheckGroup extends TField{
 				if($this->layout){
 					$checkbutton->setLayout($this->layout);
 				}
-				$checkbutton->show();
+				$div->add($checkbutton);
 			}
+			$label->add($div);
+			$label->show();
 		}
 	}
 }

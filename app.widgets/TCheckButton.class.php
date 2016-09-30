@@ -10,7 +10,6 @@ class TCheckButton extends TField{
 		$this->tag->type = "checkbox";
 	}
 
-
 	public function setLayout($layout){
 		$this->layout = $layout;
 	}

@@ -52,14 +52,12 @@ class TElement{
 					$child->show() . "\r\n";
 				}
 				elseif (is_string($child) or is_numeric($child)) {
-					echo $child . "\r\n";
+					echo $child;
 				}
 			}
 		}
 		$this->close();
 	}
-
-
 }
 
 ?>
