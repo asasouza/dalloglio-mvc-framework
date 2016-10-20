@@ -37,6 +37,12 @@ class TCriteria extends TExpression{
 			}	
 		}		
 	}
+
+	public function hasExpressions(){
+		if ($this->expressions) {
+			return true;
+		}
+	}
 }
 
 

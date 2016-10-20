@@ -94,7 +94,8 @@ abstract class TRecord{
 		}
 	}
 
-	public function delete($id){
+	public function delete($id = NULL){
+		$id = $id ? $id : $this->id;
 		$sql = new TSqlDelete;
 		$sql->setEntity($this->getEntity());
 		$criteria = new TCriteria;

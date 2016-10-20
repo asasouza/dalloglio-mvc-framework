@@ -332,50 +332,126 @@ echo '<script type="text/javascript" src="app.css/bootstrap/js/bootstrap.min.js"
 // 	print_r($data);
 // }
 
+// class TesteRecord extends TRecord{}
+
+// class TesteForm extends TPage{
+// 	private $form;
+// 	function __construct(){
+// 		$this->form = new TForm("form_teste");
+// 		$id = new TEntry("", "id", "text");
+// 		$id->addClass("sr-only");
+// 		$nome = new TEntry("Nome", "nome", "text");
+// 		$button = new TButton("enviar");
+// 		$button->setAction(new TAction(array($this, "onSave")), "Salvar");
+// 		$button->addClass("btn btn-success");
+// 		$button->setFormName("form_teste");
+// 		$button2 = new TButton("editar");
+// 		$button2->setAction(new TAction(array($this, "onEdit")), "Editar");
+// 		$button2->addClass("btn btn-default");
+// 		$button2->setFormName("form_teste");
+// 		$this->form->addField($nome);
+// 		$this->form->addField($button);
+// 		$this->form->addField($button2);
+
+
+// 		parent::add($this->form);
+// 	}
+
+// 	function onSave(){
+// 		try {
+// 			TTransaction::open("teste");
+// 			$teste = $this->form->getData("TesteRecord");
+// 			$teste->store();
+// 			$this->form->setData($teste);
+// 			$this->form->setEditable(false);
+// 			TTransaction::close();
+// 		} catch (Exception $e) {
+// 			echo "{$e->getMessage()}";
+// 			TTransaction::rollback();
+// 		}
+// 	}
+
+// 	function onEdit(){
+// 		try {
+// 			TTransaction::open("teste");
+// 			$teste = new TesteRecord(465);
+// 			$this->form->setData($teste);
+// 			TTransaction::close();
+// 		} catch (Exception $e) {
+// 			echo $e->getMessage();
+// 			TTransaction::rollback();
+// 		}
+// 	}
+// }
+
+// $page = new TesteForm;
+// $page->show();
+
+
 class TesteRecord extends TRecord{}
 
-class TesteForm extends TPage{
-	private $form;
-	function __construct(){
-		$this->form = new TForm("form_teste");
-		$nome = new TEntry("Nome", "nome", "text");
-		$button = new TButton("enviar");
-		$button->setAction(new TAction(array($this, "onSave")), "Salvar");
-		$button->addClass("btn btn-success");
-		$button->setFormName("form_teste");
-		$button2 = new TButton("editar");
-		$button2->setAction(new TAction(array($this, "onEdit")), "Editar");
-		$button2->addClass("btn btn-default");
-		$button2->setFormName("form_teste");
-		$this->form->addField($nome);
-		$this->form->addField($button);
-		$this->form->addField($button2);
+class TesteList extends TPage{
+	private $datagrid;
+	private $loaded = false;
 
+	public function __construct(){
+		parent::__construct();
+		$this->datagrid = new TDataGrid;
 
-		parent::add($this->form);
+		$codigo = new TDataGridColumn("id", "Código");
+		$nome = new TDataGridColumn("nome", "Nome");
+
+		$delete = new TDataGridAction(array($this, "onDelete"));
+		$delete->setLabel("Delete");
+		$delete->setField('id');
+
+		$this->datagrid->addColumn($codigo);
+		$this->datagrid->addColumn($nome);
+		$this->datagrid->addAction($delete);
+
+		$this->datagrid->createModel();
+
+		parent::add($this->datagrid);
 	}
 
-	function onSave(){
+	function onReload(){
 		try {
 			TTransaction::open("teste");
-			$teste = $this->form->getData("TesteRecord");
-			$teste->store();
-			$this->form->setData($teste);
-			$this->form->setEditable(false);
+			$repository = new TRepository('Teste');
+			$criteria = new TCriteria;
+
+			$criteria->add(new TFilter("nome", "LIKE", "%Nelsão%"));
+			$criteria->setProperty('order', 'id');
+			$testes = $repository->load($criteria);
+			$this->datagrid->clear();
+			foreach ($testes as $teste) {
+				$this->datagrid->addItem($teste);
+			}
 			TTransaction::close();
+			$this->loaded = true;
 		} catch (Exception $e) {
-			echo "{$e->getMessage()}";
-			TTransaction::rollback();
-		}
+			echo $e->getMessage();
+		}	
 	}
 
-	function onEdit(){
+	function onDelete($param){
+		$key = $param["key"];
+		TTransaction::open("teste");
+		$teste = new TesteRecord($key);
+		$teste->delete();
+		TTransaction::close();
+		$this->onReload();
+	}
 
+	function show(){
+		if (!$this->loaded) {
+			$this->onReload();
+		}
+		parent::show();
 	}
 }
 
-$page = new TesteForm;
+$page = new TesteList;
 $page->show();
-
 
 ?>

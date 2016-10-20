@@ -12,7 +12,7 @@ final class TRepository{
 		$sql->addColumn('*');
 		$sql->setEntity($this->class);
 		$sql->setCriteria($criteria);
-
+		$results = array();
 		if ($conn = TTransaction::get()) {
 			TTransaction::log($sql->getInstruction());
 			$result = $conn->Query($sql->getInstruction());

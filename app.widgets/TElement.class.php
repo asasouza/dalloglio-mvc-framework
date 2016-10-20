@@ -3,7 +3,7 @@ class TElement{
 	private $name;
 	private $class;
 	private $properties;
-	private $children;
+	protected $children;
 
 	public function __construct($name, $class = NULL){
 		$this->name = $name;

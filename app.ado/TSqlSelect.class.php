@@ -10,7 +10,9 @@ final class TSqlSelect extends TSqlInstruction{
 		$this->sql .= implode(", ", $this->columns);
 		$this->sql .= " FROM {$this->entity}";
 		if ($this->criteria) {
-			$this->sql .= " WHERE {$this->criteria->dump()}";
+			if ($this->criteria->hasExpressions()) {
+				$this->sql .= " WHERE {$this->criteria->dump()}";
+			}		
 
 			$order = $this->criteria->getProperty('order');
 			$limit = $this->criteria->getProperty('limit');
