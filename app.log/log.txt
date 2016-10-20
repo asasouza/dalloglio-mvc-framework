@@ -46,3 +46,14 @@
 2016-09-22 19:46:19 :: SELECT COUNT(*) FROM Teste WHERE (nome LIKE '%Alex%'); 
 2016-09-22 19:46:21 :: SELECT * FROM Teste WHERE (nome LIKE '%Alex%'); 
 2016-09-22 19:46:21 :: SELECT COUNT(*) FROM Teste WHERE (nome LIKE '%Alex%'); 
+2016-10-19 16:30:07 :: INSERT INTO teste (text) VALUES ('Alex'); 
+2016-10-19 16:30:49 :: INSERT INTO teste (text) VALUES ('Nelsão'); 
+2016-10-19 16:32:40 :: INSERT INTO teste (nome) VALUES ('Nelsão'); 
+2016-10-19 16:38:02 :: INSERT INTO teste (nome) VALUES ('Nelsão'); 
+2016-10-19 16:43:14 :: INSERT INTO teste (nome) VALUES ('Nelsão'); 
+2016-10-19 16:48:05 :: INSERT INTO teste () VALUES (); 
+2016-10-20 00:34:31 :: INSERT INTO teste (nome) VALUES ('Alex Souza'); 
+2016-10-20 00:34:52 :: INSERT INTO teste (nome) VALUES ('Alex Souza'); 
+2016-10-20 00:38:08 :: INSERT INTO teste (nome) VALUES ('Alex Sandro'); 
+2016-10-20 00:39:36 :: INSERT INTO teste (nome) VALUES (''); 
+2016-10-20 00:46:50 :: INSERT INTO teste (nome) VALUES ('alkvoprmvemv'); 

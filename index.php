@@ -254,68 +254,128 @@ echo '<script type="text/javascript" src="app.css/bootstrap/js/bootstrap.min.js"
 
 // $input->show();
 
-$panel = new TElement('div', "col-lg-6 panel panel-default");
+// $panel = new TElement('div', "col-lg-6 panel panel-default");
 
-$panelheader = new TElement('div', "panel-heading");
-$titulo = new TElement("h1", 'text-center');
-$titulo->add("Form");
-$panelheader->add($titulo);
+// $panelheader = new TElement('div', "panel-heading");
+// $titulo = new TElement("h1", 'text-center');
+// $titulo->add("Form");
+// $panelheader->add($titulo);
 
-$panel->add($panelheader);
+// $panel->add($panelheader);
 
-$panelbody = new TElement('div', "panel-body");
+// $panelbody = new TElement('div', "panel-body");
 
 
-$form = new TForm('form');
+// $form = new TForm('form');
 
-//TEntry(Label, Name, Type);
-$text = new TEntry("", "text", "text");
-$password = new TEntry("", "passw", "password");
-$file = new TEntry("", "file", "file");
-$data = new TEntry("", "date", "date");
-$color = new TEntry("", "color", "color");
-$number = new TEntry("", "number", "number");
-$textarea = new TText("", "textarea");
-$combo = new TCombo("Combo", "combo");
-$checkbox = new TCheckButton("teste[]", "checkbox");
-$checkgroup = new TCheckGroup("Selecione as opções","checkgroup");
+// //TEntry(Label, Name, Type);
+// $text = new TEntry("", "text", "text");
+// $password = new TEntry("", "passw", "password");
+// $file = new TEntry("", "file", "file");
+// $data = new TEntry("", "date", "date");
+// $color = new TEntry("", "color", "color");
+// $number = new TEntry("", "number", "number");
+// $textarea = new TText("", "textarea");
+// $combo = new TCombo("Combo", "combo");
+// $checkbox = new TCheckButton("teste[]", "checkbox");
 
-$checkgroup->setLayout("checkbox-inline");
+// $checkgroup = new TCheckGroup("Selecione as opções","checkgroup");
+// $checkgroup->setLayout("checkbox-inline");
 
-$array;
-for ($i=1; $i < 10; $i++) { 
-	$array[$i] = "112";
+
+// $radiobutton = new TRadioButton("teste[]", "radio");
+
+// $radiogroup = new TRadioGroup("Selecione uma opção", "radiogroup");
+// $radiogroup->setLayout("radio-inline");
+
+// $button = new TButton('action1');
+// $button->setAction(new TAction('onSend'), "Enviar");
+// $button->addClass("btn btn-success btn-md");
+
+// $array;
+// for ($i=1; $i < 10; $i++) { 
+// 	$array[$i] = "112";
+// }
+// $combo->addItems($array);
+
+// $checkgroup->addItems($array);
+// $radiogroup->addItems($array);
+
+// // $input->setProperty('placeholder', 'Nome');
+// // $input->addClass("sr-only");
+// // $form->addField($text);
+// // $form->addField($password);
+// // $form->addField($file);
+// // $form->addField($data);
+// // $form->addField($color);
+// // $form->addField($number);
+// // $form->addField($textarea);
+// // $form->addField($combo);
+// $array = array($text, $password, $file, $data, $color, $number, $textarea, $combo, $checkbox, $checkgroup, $radiobutton, $radiogroup, $button);
+// $form->setFields($array);
+
+
+// // $form->setEditable(FALSE);
+// $panelbody->add($form);
+// $panel->add($panelbody);
+// // $panel->show();
+// // $forminput = $form->getField("nome1");
+// // $forminput->show();
+
+// $page = new TPage;
+// $page->add($panel);
+// $page->show();
+
+// function onSend(){
+// 	global $form;
+// 	$data = $form->getData();
+// 	print_r($data);
+// }
+
+class TesteRecord extends TRecord{}
+
+class TesteForm extends TPage{
+	private $form;
+	function __construct(){
+		$this->form = new TForm("form_teste");
+		$nome = new TEntry("Nome", "nome", "text");
+		$button = new TButton("enviar");
+		$button->setAction(new TAction(array($this, "onSave")), "Salvar");
+		$button->addClass("btn btn-success");
+		$button->setFormName("form_teste");
+		$button2 = new TButton("editar");
+		$button2->setAction(new TAction(array($this, "onEdit")), "Editar");
+		$button2->addClass("btn btn-default");
+		$button2->setFormName("form_teste");
+		$this->form->addField($nome);
+		$this->form->addField($button);
+		$this->form->addField($button2);
+
+
+		parent::add($this->form);
+	}
+
+	function onSave(){
+		try {
+			TTransaction::open("teste");
+			$teste = $this->form->getData("TesteRecord");
+			$teste->store();
+			$this->form->setData($teste);
+			$this->form->setEditable(false);
+			TTransaction::close();
+		} catch (Exception $e) {
+			echo "{$e->getMessage()}";
+			TTransaction::rollback();
+		}
+	}
+
+	function onEdit(){
+
+	}
 }
-$combo->addItems($array);
 
-$checkgroup->addItems($array);
-
-// $input->setProperty('placeholder', 'Nome');
-// $input->addClass("sr-only");
-// $form->addField($text);
-// $form->addField($password);
-// $form->addField($file);
-// $form->addField($data);
-// $form->addField($color);
-// $form->addField($number);
-// $form->addField($textarea);
-// $form->addField($combo);
-$array = array($text, $password, $file, $data, $color, $number, $textarea, $combo, $checkbox, $checkgroup);
-$form->setFields($array);
+$page = new TesteForm;
+$page->show();
 
 
-// $form->setEditable(FALSE);
-$panelbody->add($form);
-$panel->add($panelbody);
-$panel->show();
-// $forminput = $form->getField("nome1");
-// $forminput->show();
 ?>
-
-<script type="text/javascript">
-$(document).ready(function(){
-	$(".panel-heading").click(function(){
-		$(".form-control").val("");
-	});
-});
-</script>

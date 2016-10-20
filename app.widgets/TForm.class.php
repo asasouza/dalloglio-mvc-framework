@@ -45,8 +45,8 @@ class TForm{
 
 	public function setData($object){
 		foreach ($this->fields as $name => $field) {
-			if ($name) {
-				$field->setValue($object->name);
+			if ($name and (!$field instanceof TButton)) {
+				$field->setValue($object->$name);
 			}
 		}
 	}
