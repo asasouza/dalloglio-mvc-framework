@@ -1,6 +1,6 @@
 <?php
 
-function __autoload($classe){
+function autoLoader($classe){
 	if (file_exists("app.ado/{$classe}.class.php")) {
 		require_once "app.ado/{$classe}.class.php";
 	}
@@ -9,9 +9,11 @@ function __autoload($classe){
 	}
 }
 
-echo '<link rel="stylesheet" type="text/css" href="app.css/bootstrap/css/bootstrap.min.css">';
-echo '<script type="text/javascript" src="app.js/jquery.js"></script>';
-echo '<script type="text/javascript" src="app.css/bootstrap/js/bootstrap.min.js"></script>';
+spl_autoload_register("autoLoader");
+
+echo '<link rel="stylesheet" type="text/css" href="app.public/css/bootstrap.min.css">';
+echo '<script type="text/javascript" src="app.public/js/jquery.js"></script>';
+echo '<script type="text/javascript" src="app.public/js/bootstrap.min.js"></script>';
 
 #TESTA CRITERIA
 // $criteria1 = new TCriteria();
@@ -388,20 +390,25 @@ echo '<script type="text/javascript" src="app.css/bootstrap/js/bootstrap.min.js"
 // $page->show();
 
 
-class TesteRecord extends TRecord{}
+class TesteRecord extends Record{}
 
-class TesteList extends TPage{
+class TesteList extends Page{
 	private $datagrid;
 	private $loaded = false;
 
 	public function __construct(){
 		parent::__construct();
-		$this->datagrid = new TDataGrid;
 
-		$codigo = new TDataGridColumn("id", "Código");
-		$nome = new TDataGridColumn("nome", "Nome");
+		require_once("test.php");
 
-		$delete = new TDataGridAction(array($this, "onDelete"));
+		$div = new Element("div", "col-lg-6 table-responsive");
+
+		$this->datagrid = new DataGrid;
+
+		$codigo = new DataGridColumn("id", "Código");
+		$nome = new DataGridColumn("nome", "Nome");
+
+		$delete = new DataGridAction(array($this, "onDelete"));
 		$delete->setLabel("Delete");
 		$delete->setField('id');
 
@@ -411,23 +418,24 @@ class TesteList extends TPage{
 
 		$this->datagrid->createModel();
 
-		parent::add($this->datagrid);
+		$div->add($this->datagrid);
+
+		parent::add($div);
 	}
 
 	function onReload(){
 		try {
-			TTransaction::open("teste");
-			$repository = new TRepository('Teste');
-			$criteria = new TCriteria;
+			Transaction::open();
+			$repository = new Repository('Teste');
+			$criteria = new Criteria;
 
-			$criteria->add(new TFilter("nome", "LIKE", "%Nelsão%"));
 			$criteria->setProperty('order', 'id');
 			$testes = $repository->load($criteria);
 			$this->datagrid->clear();
 			foreach ($testes as $teste) {
 				$this->datagrid->addItem($teste);
 			}
-			TTransaction::close();
+			Transaction::close();
 			$this->loaded = true;
 		} catch (Exception $e) {
 			echo $e->getMessage();
@@ -436,10 +444,10 @@ class TesteList extends TPage{
 
 	function onDelete($param){
 		$key = $param["key"];
-		TTransaction::open("teste");
+		Transaction::open("teste");
 		$teste = new TesteRecord($key);
 		$teste->delete();
-		TTransaction::close();
+		Transaction::close();
 		$this->onReload();
 	}
 
